@@ -1,0 +1,1 @@
+Groupe 2 : Alexandre SACKS, Olivier KOENIG, Sylvie TCHOUMI, Maxime GODINEAU
