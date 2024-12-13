@@ -1,23 +1,12 @@
-# # importer fastapi
-# from fastapi import FastAPI
-# from src.database import engine
-# from src.models import Base
-
-# # definir les routes
-# app = FastAPI()
-
-# # importer engine(database.py) et Base(models.py)
-# Base.metadata.create_all(engine)
-
-
-# @app.get("/")
-# def toto():
-#     return {"message": "Hello World"}
 
 from fastapi import FastAPI
+from router.clients_router import router_client
 
 app = FastAPI()
+app.include_router(router_client)
+
 
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+
