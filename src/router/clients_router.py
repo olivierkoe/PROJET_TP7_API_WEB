@@ -1,33 +1,26 @@
 from fastapi import APIRouter, HTTPException, Depends, status
-from sqlalchemy.orm import Session
-from pydantic import BaseModel
-from typing import List
 from models import Client
+from sqlalchemy.orm import Session
+from typing import List
 from database import get_db
 from services.clients_services import get_all, get_by_id, create_client, update_client, delete_client
+from schemas.client import ClientCreate, ClientResponse  
 
 router_client = APIRouter()
 
-# Pydantic Model for Client
-class ClientCreate(BaseModel):
-    nomcli: str
-    emailcli: str
-
-    class Config:
-        orm_mode = True
-
-@router_client.get("/", response_model=List[ClientCreate])
+@router_client.get("/", response_model=List[ClientResponse], tags=["Clients"])
 def get_clients(db: Session = Depends(get_db)):
     """Fetch all clients."""
     try:
-        return get_all(db)
+        clients = get_all(db)
+        return db.query(Client).all()
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"An error occurred while fetching clients: {str(e)}"
         )
 
-@router_client.get("/{id}", response_model=ClientCreate)
+@router_client.get("/{id}", response_model=ClientResponse, tags=["Clients"])
 def get_client_by_id(id: int, db: Session = Depends(get_db)):
     """Fetch a single client by ID."""
     client = get_by_id(db, id)
@@ -38,34 +31,39 @@ def get_client_by_id(id: int, db: Session = Depends(get_db)):
         )
     return client
 
-@router_client.post("/", response_model=ClientCreate, status_code=status.HTTP_201_CREATED)
+@router_client.post("/", response_model=ClientResponse, status_code=status.HTTP_201_CREATED, tags=["Clients"])
 def add_client(client_data: ClientCreate, db: Session = Depends(get_db)):
     """Create a new client."""
     try:
-        return create_client(db, client_data.dict())
+        new_client = create_client(db, client_data.dict())
+        return new_client
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"An error occurred while creating the client: {str(e)}"
         )
 
-@router_client.put("/{codcli}", status_code=status.HTTP_200_OK)
-def update_client_data(codcli: int, updated_data: dict, db: Session = Depends(get_db)):
+@router_client.put("/{id}", response_model=ClientResponse, status_code=status.HTTP_200_OK, tags=["Clients"])
+def update_client_data(id: int, updated_data: ClientCreate, db: Session = Depends(get_db)):
     """
-    Met à jour les données d'un client.
-    :param codcli: Identifiant du client
-    :param updated_data: Données mises à jour
-    :param db: Session de base de données
-    :return: Client mis à jour
+    Update the data of an existing client.
+    :param id: Client ID
+    :param updated_data: Updated data for the client
+    :param db: Database session
+    :return: Updated client object
     """
     try:
-        return update_client(db, codcli, updated_data)
-    except ValueError as ve:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(ve))
+        updated_client = update_client(db, id, updated_data.dict())
+        if not updated_client:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Client not found")
+        return updated_client
     except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"An error occurred while updating the client: {str(e)}"
+        )
 
-@router_client.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT)
+@router_client.delete("/{id}", status_code=status.HTTP_204_NO_CONTENT, tags=["Clients"])
 def remove_client(id: int, db: Session = Depends(get_db)):
     """Delete a client by ID."""
     client = get_by_id(db, id)
