@@ -11,6 +11,6 @@ app.include_router(router_client)
 Base.metadata.create_all(engine)
 
 @app.get("/")
-def toto():
+def AllClient():
     return {"message": "Hello World"}
 
