@@ -24,14 +24,11 @@ try:
     with engine.connect() as connection:
         connection.execute("CREATE DATABASE IF NOT EXISTS fromagerie_com")
         connection.execute("USE fromagerie_com")
+        # Créer toutes les tables dans la base de données en utilisant les classes de `models.py`
+        Base.metadata.create_all(engine)
 except Exception as e:
     print("Erreur de connexion :", e)
 
-# Créer toutes les tables dans la base de données en utilisant les classes de `models.py`
-Base.metadata.create_all(engine)
-
-# Base de données pour les modèles
-Base = declarative_base()
 
 # Fonction pour récupérer une session de base de données
 def get_db():
