@@ -1,6 +1,4 @@
-# schemas/commande.py
-
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
 # Schéma pour la création d'une commande
@@ -16,12 +14,10 @@ class CommandeCreate(BaseModel):
     barchive: Optional[int] = 0
     bstock: Optional[int] = 0
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)
 
 # Schéma pour la réponse d'une commande
 class CommandeResponse(CommandeCreate):
     codcde: int  # ID de la commande
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

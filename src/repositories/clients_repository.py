@@ -16,7 +16,7 @@ def get_client_by_id(db: Session, id: int):
 
 def create_client(db: Session, client_data: dict):
     try:
-        new_client = Client(**client_data)  # Assurez-vous que le dictionnaire correspond au modèle SQLAlchemy
+        new_client = Client(**client_data)
         db.add(new_client)
         db.commit()
         db.refresh(new_client)

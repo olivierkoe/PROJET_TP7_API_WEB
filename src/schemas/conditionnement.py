@@ -1,5 +1,4 @@
-# schemas/conditionnement.py
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from decimal import Decimal
 
 # Schéma pour créer un conditionnement
@@ -9,12 +8,10 @@ class ConditionnementCreate(BaseModel):
     # prixcond: Decimal
     ordreimp: int
 
-    class Config:
-        orm_mode = True  # Permet de lire directement les objets SQLAlchemy
+    model_config = ConfigDict(from_attributes=True)
 
 # Schéma pour la réponse d'un conditionnement
 class Conditionnement(ConditionnementCreate):
     idcondit: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

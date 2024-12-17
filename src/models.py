@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Date, Boolean, ForeignKey, Index, Numeric, Float,MetaData
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 
 # déclaration d'une base qui permet après de créer un modele et de mapper avec sql alchemy
 Base = declarative_base()
