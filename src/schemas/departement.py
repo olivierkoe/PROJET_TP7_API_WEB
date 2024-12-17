@@ -1,15 +1,14 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 # Schéma pour la création d'un département
 class DepartementCreate(BaseModel):
     code_dept: str
     nom_dept: str
-    ordre_aff_dept: int
+    # ordre_aff_dept: int
 
-    class Config:
-        from_attributes = True  # Utilisez "from_attributes" au lieu de "orm_mode"
+    model_config = ConfigDict(from_attributes=True)
 
 # Schéma pour la réponse d'un département
 class Departement(DepartementCreate):
-    class Config:
-        from_attributes = True  # Utilisez "from_attributes" au lieu de "orm_mode"
+
+    model_config = ConfigDict(from_attributes=True)

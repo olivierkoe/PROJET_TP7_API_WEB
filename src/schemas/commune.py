@@ -1,5 +1,4 @@
-# schemas/commune.py
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 # Schéma pour la création d'une commune
 class CommuneCreate(BaseModel):
@@ -7,12 +6,10 @@ class CommuneCreate(BaseModel):
     cp: str
     ville: str
 
-    class Config:
-        orm_mode = True  # Permet de lire directement les objets SQLAlchemy
+    model_config = ConfigDict(from_attributes=True)
 
 # Schéma pour la réponse d'une commune
 class Commune(CommuneCreate):
     id: int
 
-    class Config:
-        orm_mode = True
+    model_config = ConfigDict(from_attributes=True)

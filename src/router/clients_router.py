@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from typing import List
 from database import get_db
 from services.clients_services import get_all, get_by_id, create_client, update_client, delete_client
-from schemas.client import ClientCreate, ClientResponse  
+from schemas.client import ClientCreate, ClientResponse
 
 router_client = APIRouter()
 
@@ -35,7 +35,7 @@ def get_client_by_id(id: int, db: Session = Depends(get_db)):
 def add_client(client_data: ClientCreate, db: Session = Depends(get_db)):
     """Create a new client."""
     try:
-        new_client = create_client(db, client_data.dict())
+        new_client = create_client(db, client_data.model_dump())
         return new_client
     except Exception as e:
         raise HTTPException(

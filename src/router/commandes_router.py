@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from services.commandes_services import (
-    create_commande, 
-    get_all_commandes, 
-    get_commande_by_id, 
-    update_commande, 
+    create_commande,
+    get_all_commandes,
+    get_commande_by_id,
+    update_commande,
     delete_commande
 )
 from schemas.commande import CommandeCreate, CommandeResponse
