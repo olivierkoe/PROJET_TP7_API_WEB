@@ -1,5 +1,11 @@
+# spécifique au projet
 annexes
 
-.env # Ignore environment file
-.venv # Ignore virtual environment
+# environment
+.venv
+.env
+
+# python cache & ide
 __pycache__
+.idea
+.vscode
