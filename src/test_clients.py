@@ -14,7 +14,7 @@ def test_get_all_clients():
 
 def test_get_client_by_id():
     # Remplace "1" par un ID valide présent dans ta base de données pour ce test
-    client_id = 4
+    client_id = 3
     response = client.get(f"/clients/{client_id}")
     assert response.status_code == 200, f"Expected status code 200, got {response.status_code}"
     assert isinstance(response.json(), dict), "Response should be a dictionary representing a client"
@@ -25,6 +25,7 @@ def test_create_client():
     data = {
         "nomcli": "John Does",
         "emailcli": "l9mEsj@example.com",
+
     }
 
     response = client.post("/clients", json=data)
