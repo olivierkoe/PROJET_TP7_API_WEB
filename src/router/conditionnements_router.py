@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status  # Importation des outils FastAPI
 from sqlalchemy.orm import Session  # Importation de Session pour interagir avec la base de données via SQLAlchemy
-from services.conditionnements_services import (
+from src.services.conditionnements_services import (
     fetch_all_conditionnements,           # Service pour récupérer tous les conditionnements
     fetch_conditionnement_by_id,          # Service pour récupérer un conditionnement par son ID
     add_conditionnement,                  # Service pour ajouter un nouveau conditionnement
     modify_conditionnement,               # Service pour modifier un conditionnement existant
     remove_conditionnement                # Service pour supprimer un conditionnement
 )
-from schemas.conditionnement import Conditionnement, ConditionnementCreate  # Importation des schémas de validation des données
-from database import get_db  # Importation de la fonction pour obtenir la session de base de données
+from src.schemas.conditionnement import Conditionnement, ConditionnementCreate  # Importation des schémas de validation des données
+from src.database import get_db  # Importation de la fonction pour obtenir la session de base de données
 
 # Initialisation du routeur pour gérer les routes relatives aux conditionnements
 router_conditionnement = APIRouter()

@@ -1,6 +1,6 @@
 # Importation des modules nécessaires pour les tests
 from fastapi.testclient import TestClient  # TestClient de FastAPI pour envoyer des requêtes HTTP à l'application
-from .main import app  # Importation de l'application FastAPI depuis le fichier principal
+from src.main import app  # Importation de l'application FastAPI depuis le fichier principal
 import pytest  # Importation de pytest pour la gestion des tests
 
 # Initialisation du client de test, qui permet d'effectuer des requêtes à l'application FastAPI dans un environnement de test
@@ -19,13 +19,9 @@ def test_get_all_clients():
 
 # Test pour récupérer un client par son ID
 def test_get_client_by_id():
-<<<<<<< HEAD
-    # Remplace "1" par un ID valide existant dans la base de données pour ce test
-    client_id = 4  # Remplacer ce numéro par un ID existant
-=======
+
     # Remplace "1" par un ID valide présent dans ta base de données pour ce test
-    client_id = 3
->>>>>>> 9a21b7416216b13ecd5f7c7c41edacb9d0b1b4bf
+    client_id = 5
     response = client.get(f"/clients/{client_id}")
     
     # Vérification que la réponse a un statut HTTP 200 (OK)
@@ -38,14 +34,10 @@ def test_get_client_by_id():
 def test_create_client():
     # Données à envoyer pour créer un nouveau client
     data = {
-<<<<<<< HEAD
+
         "nomcli": "John Does",  # Nom du client
         "emailcli": "l9mEsj@example.com",  # Email du client
-=======
-        "nomcli": "John Does",
-        "emailcli": "l9mEsj@example.com",
 
->>>>>>> 9a21b7416216b13ecd5f7c7c41edacb9d0b1b4bf
     }
 
     # Envoi d'une requête POST pour créer un client avec les données fournies

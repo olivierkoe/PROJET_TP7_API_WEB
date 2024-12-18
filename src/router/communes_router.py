@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status  # Importation des outils FastAPI
 from sqlalchemy.orm import Session  # Importation de Session pour interagir avec la base de données via SQLAlchemy
-from services.communes_services import (
+from src.services.communes_services import (
     fetch_all_communes,            # Service pour récupérer toutes les communes
     fetch_commune_by_id,           # Service pour récupérer une commune par son ID
     add_commune,                   # Service pour ajouter une nouvelle commune
     modify_commune,                # Service pour modifier une commune existante
     remove_commune                 # Service pour supprimer une commune
 )
-from schemas.commune import Commune, CommuneCreate  # Importation des schémas de validation des données
-from database import get_db  # Importation de la fonction pour obtenir la session de base de données
+from src.schemas.commune import Commune, CommuneCreate  # Importation des schémas de validation des données
+from src.database import get_db  # Importation de la fonction pour obtenir la session de base de données
 
 # Initialisation du routeur pour gérer les routes relatives aux communes
 router_commune = APIRouter()

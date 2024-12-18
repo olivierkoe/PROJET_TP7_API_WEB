@@ -1,4 +1,4 @@
-from repositories.clients_repository import (
+from src.repositories.clients_repository import (
     get_all_clients,           # Fonction pour récupérer tous les clients
     get_client_by_id,          # Fonction pour récupérer un client par son identifiant
     create_client as repo_create_client,  # Fonction pour créer un nouveau client

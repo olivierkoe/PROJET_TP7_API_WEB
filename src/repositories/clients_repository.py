@@ -1,4 +1,4 @@
-from models import Client  # Importation du modèle Client depuis le module models
+from src.models import Client  # Importation du modèle Client depuis le module models
 from sqlalchemy.orm import Session  # Importation de la classe Session pour interagir avec la base de données
 
 

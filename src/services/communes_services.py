@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from repositories.communes_repositories import (
+from src.repositories.communes_repositories import (
     get_all_communes,  # Importation de la fonction pour récupérer toutes les communes
     get_commune_by_id,  # Importation de la fonction pour récupérer une commune par son ID
     create_commune,  # Importation de la fonction pour créer une nouvelle commune
