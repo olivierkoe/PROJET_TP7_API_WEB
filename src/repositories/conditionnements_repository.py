@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session  # Importation de Session pour interagir avec la base de données
-from models import Conditionnement  # Importation du modèle Conditionnement depuis le module models
+from src.models import Conditionnement  # Importation du modèle Conditionnement depuis le module models
 
 
 # Fonction pour obtenir tous les conditionnements

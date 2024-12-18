@@ -1,14 +1,14 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
-from database import get_db
-from services.departements_services import (
+from src.database import get_db
+from src.services.departements_services import (
     get_all,  # Fonction pour récupérer tous les départements
     get_by_id,  # Fonction pour récupérer un département par son code
     create_departement,  # Fonction pour créer un département
     delete_departement,  # Fonction pour supprimer un département
     update_departement,  # Fonction pour mettre à jour un département
 )
-from schemas.departement import DepartementCreate, Departement  # Correction des imports
+from src.schemas.departement import DepartementCreate, Departement  # Correction des imports
 
 # Initialisation du routeur pour les départements
 router_departement = APIRouter()

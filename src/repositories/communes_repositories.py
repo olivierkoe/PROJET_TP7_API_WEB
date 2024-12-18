@@ -1,6 +1,6 @@
 # repositories/commune.py
 from sqlalchemy.orm import Session  # Importation de Session pour interagir avec la base de données
-from models import Commune  # Importation du modèle Commune depuis le module models
+from src.models import Commune  # Importation du modèle Commune depuis le module models
 
 
 # Fonction pour obtenir toutes les communes

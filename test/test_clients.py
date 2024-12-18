@@ -1,6 +1,6 @@
 # Importation des modules nécessaires pour les tests
 from fastapi.testclient import TestClient  # TestClient de FastAPI pour envoyer des requêtes HTTP à l'application
-from .main import app  # Importation de l'application FastAPI depuis le fichier principal
+from src.main import app  # Importation de l'application FastAPI depuis le fichier principal
 import pytest  # Importation de pytest pour la gestion des tests
 
 # Initialisation du client de test, qui permet d'effectuer des requêtes à l'application FastAPI dans un environnement de test

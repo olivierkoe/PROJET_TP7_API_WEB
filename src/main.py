@@ -1,12 +1,12 @@
 # Importation des modules nécessaires
 from fastapi import FastAPI  # Importation de la classe FastAPI pour créer l'application
-from router.clients_router import router_client  # Importation du router des clients
-from router.departements_router import router_departement  # Importation du router des départements
-from router.conditionnements_router import router_conditionnement  # Importation du router des conditionnements
-from router.commandes_router import router_commande  # Importation du router des commandes
-from router.communes_router import router_commune  # Importation du router des communes
-from database import engine  # Importation de l'engine de la base de données (connexion à la BDD)
-from models import Base  # Importation de la classe Base pour la création des tables
+from src.router.clients_router import router_client  # Importation du router des clients
+from src.router.departements_router import router_departement  # Importation du router des départements
+from src.router.conditionnements_router import router_conditionnement  # Importation du router des conditionnements
+from src.router.commandes_router import router_commande  # Importation du router des commandes
+from src.router.communes_router import router_commune  # Importation du router des communes
+from src.database import engine  # Importation de l'engine de la base de données (connexion à la BDD)
+from src.models import Base  # Importation de la classe Base pour la création des tables
 
 # Création de l'application FastAPI
 app = FastAPI()

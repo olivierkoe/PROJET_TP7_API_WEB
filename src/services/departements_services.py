@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models import Departement  # Importation du modèle Departement
+from src.models import Departement  # Importation du modèle Departement
 
 # Récupérer tous les départements
 def get_all(db: Session):

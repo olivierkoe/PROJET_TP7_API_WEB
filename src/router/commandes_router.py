@@ -1,14 +1,14 @@
 from fastapi import APIRouter, Depends, HTTPException, status  # Importation de FastAPI et des exceptions HTTP
 from sqlalchemy.orm import Session  # Importation de Session pour interagir avec la base de données via SQLAlchemy
-from services.commandes_services import (
+from src.services.commandes_services import (
     create_commande,           # Service pour créer une commande
     get_all_commandes,         # Service pour récupérer toutes les commandes
     get_commande_by_id,        # Service pour récupérer une commande par son ID
     update_commande,           # Service pour mettre à jour une commande
     delete_commande            # Service pour supprimer une commande
 )
-from schemas.commande import CommandeCreate, CommandeResponse  # Importation des schémas de données pour la validation des entrées et sorties
-from database import get_db  # Importation de la fonction pour récupérer une session de base de données
+from src.schemas.commande import CommandeCreate, CommandeResponse  # Importation des schémas de données pour la validation des entrées et sorties
+from src.database import get_db  # Importation de la fonction pour récupérer une session de base de données
 
 # Définir le routeur pour les commandes
 router_commande = APIRouter()  # Création d'un routeur pour les routes liées aux commandes

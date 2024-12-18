@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from repositories.conditionnements_repository import (
+from src.repositories.conditionnements_repository import (
     get_all_conditionnements,  # Importation de la fonction pour récupérer tous les conditionnements
     get_conditionnement_by_id,  # Importation de la fonction pour récupérer un conditionnement par son ID
     create_conditionnement,  # Importation de la fonction pour créer un nouveau conditionnement

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from models import Commande  # Importation du modèle Commande
-from schemas.commande import CommandeCreate  # Importation du schéma CommandeCreate
+from src.models import Commande  # Importation du modèle Commande
+from src.schemas.commande import CommandeCreate  # Importation du schéma CommandeCreate
 
 # Fonction pour créer une nouvelle commande
 def create_commande(db: Session, commande_data: CommandeCreate):

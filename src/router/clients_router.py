@@ -1,10 +1,10 @@
 from fastapi import APIRouter, HTTPException, Depends, status  # Importation de FastAPI et des exceptions HTTP
-from models import Client  # Importation du modèle Client pour interagir avec la base de données
+from src.models import Client  # Importation du modèle Client pour interagir avec la base de données
 from sqlalchemy.orm import Session  # Importation de Session pour interagir avec la base de données via SQLAlchemy
 from typing import List  # Pour spécifier que nous retournons une liste d'objets dans les réponses
-from database import get_db  # Importation de la fonction pour récupérer une session de base de données
-from services.clients_services import get_all, get_by_id, create_client, update_client, delete_client  # Importation des services
-from schemas.client import ClientCreate, ClientResponse  # Importation des schémas de données pour la validation des entrées et sorties
+from src.database import get_db  # Importation de la fonction pour récupérer une session de base de données
+from src.services.clients_services import get_all, get_by_id, create_client, update_client, delete_client  # Importation des services
+from src.schemas.client import ClientCreate, ClientResponse  # Importation des schémas de données pour la validation des entrées et sorties
 
 router_client = APIRouter()  # Création d'un routeur pour les routes liées aux clients
 

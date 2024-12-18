@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from models import Base
+from src.models import Base
 
 # Configuration de la base de données
 SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:@localhost/fromagerie_com"
