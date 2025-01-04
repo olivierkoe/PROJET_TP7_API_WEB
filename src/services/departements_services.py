@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from src.models import Departement  # Importation du modèle Departement
-
+from src.repositories.departements_repository import (create_departement as repo_create_departement,update_departement as repo_update_departement)
 # Récupérer tous les départements
-def get_all(db: Session):
+def get_all_departements(db: Session):
     """
     Récupère tous les départements présents dans la base de données.
     
@@ -13,7 +13,7 @@ def get_all(db: Session):
     return db.query(Departement).all()
 
 # Récupérer un département par son code
-def get_by_id(db: Session, code_dept: str):
+def get_departement_by_id(db: Session, code_dept: str):
     """
     Récupère un département spécifique par son code.
     
@@ -25,7 +25,7 @@ def get_by_id(db: Session, code_dept: str):
     return db.query(Departement).filter(Departement.code_dept == code_dept).first()
 
 # Créer un nouveau département
-def create_departement(db: Session, departement_data: dict):
+def create_departement(db, departement_data):
     """
     Crée un nouveau département dans la base de données avec les données fournies.
     
@@ -33,20 +33,13 @@ def create_departement(db: Session, departement_data: dict):
     :param departement_data: Données du département à créer sous forme de dictionnaire
     :return: Le département nouvellement créé
     """
+    try:
+        # Appel à la fonction du dépôt pour créer un client avec les données fournies
     # Crée un nouvel objet Departement à partir des données fournies
-    new_departement = Departement(**departement_data)
-    
-    # Ajoute le nouveau département à la session de base de données
-    db.add(new_departement)
-    
-    # Effectue la transaction pour persister les données dans la base
-    db.commit()
-    
-    # Rafraîchit l'objet pour récupérer les données actuelles après le commit (par exemple, les valeurs auto-générées comme l'ID)
-    db.refresh(new_departement)
-    
-    # Renvoie le département créé
-    return new_departement
+        return repo_create_departement(db, departement_data)
+    except Exception as e:
+        # En cas d'erreur, une RuntimeError est levée
+        raise RuntimeError(f"Erreur lors de la création du département : {str(e)}")
 
 # Mettre à jour un département
 def update_departement(db: Session, code_dept: str, updated_data: dict):

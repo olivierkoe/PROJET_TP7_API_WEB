@@ -2,8 +2,8 @@ from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from src.database import get_db
 from src.services.departements_services import (
-    get_all,  # Fonction pour récupérer tous les départements
-    get_by_id,  # Fonction pour récupérer un département par son code
+    get_all_departements,  # Fonction pour récupérer tous les départements
+    get_departement_by_id,  # Fonction pour récupérer un département par son code
     create_departement,  # Fonction pour créer un département
     delete_departement,  # Fonction pour supprimer un département
     update_departement,  # Fonction pour mettre à jour un département
@@ -21,7 +21,7 @@ def get_departements(db: Session = Depends(get_db)):
     En cas d'erreur, une exception HTTP 500 est levée avec le message d'erreur.
     """
     try:
-        departements = get_all(db)  # Récupère tous les départements via le service
+        departements = get_all_departements(db)  # Récupère tous les départements via le service
         return departements  # Retourne la liste des départements
     except Exception as e:
         # Si une erreur se produit, retourne une erreur HTTP 500
@@ -35,7 +35,7 @@ def get_departement(code_dept: str, db: Session = Depends(get_db)):
     Si le département n'est pas trouvé, une exception HTTP 404 est levée.
     """
     try:
-        departement = get_by_id(db, code_dept)  # Récupère le département via le service
+        departement = get_departement_by_id(db, code_dept)  # Récupère le département via le service
         if not departement:
             # Si le département n'existe pas, lève une exception HTTP 404
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Département non trouvé")
@@ -53,10 +53,14 @@ def add_departement(departement_data: DepartementCreate, db: Session = Depends(g
     """
     try:
         # Crée un nouveau département via le service
-        return create_departement(db, departement_data)
+        new_dept = create_departement(db, departement_data.model_dump())
+        return new_dept
+    except HTTPException as e:
+        raise e  # Si c'est déjà une exception HTTP, la relancer.
     except Exception as e:
-        # Si une erreur se produit, retourne une erreur HTTP 400
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+        # Gérer les autres erreurs
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Erreur inattendue : {str(e)}")
+
 
 # Route pour modifier un département existant
 @router_departement.put("/{code_dept}", status_code=status.HTTP_200_OK, response_model=Departement, tags=["Départements"])

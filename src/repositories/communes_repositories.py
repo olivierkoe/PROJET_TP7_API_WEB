@@ -32,11 +32,13 @@ def create_commune(db: Session, commune_data: dict):
     :param commune_data: Dictionnaire des données de la commune (par exemple, nom, région, etc.)
     :return: La commune nouvellement créée
     """
-    commune = Commune(**commune_data)  # Crée un nouvel objet Commune avec les données fournies
-    db.add(commune)  # Ajoute la commune à la session
-    db.commit()  # Effectue la transaction pour sauvegarder la commune dans la base de données
-    db.refresh(commune)  # Rafraîchit l'objet pour récupérer l'état mis à jour
-    return commune  # Retourne la commune nouvellement créée
+    if len(commune_data.get('dep', '')) > 2:
+        raise ValueError("Le code 'dep' ne doit pas dépasser 2 caractères.")
+    commune = Commune(**commune_data)
+    db.add(commune)
+    db.commit()
+    db.refresh(commune)
+    return commune
 
 
 # Fonction pour mettre à jour une commune
