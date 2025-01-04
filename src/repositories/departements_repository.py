@@ -20,11 +20,14 @@ def get_departement_by_id(db: Session, code_dept: str):
     Récupère un département en fonction de son code.
     :param db: Session de base de données
     :param code_dept: Code du département à récupérer
-    :return: Le département correspondant au code, ou une exception si le département n'existe pas
+    :return: Le département correspondant au code, ou une exception HTTP 404 si le département n'existe pas
     """
     departement = db.query(Departement).filter(Departement.code_dept == code_dept).first()  # Recherche le département par son code
     if not departement:  # Si le département n'est pas trouvé
-        raise ValueError(f"Département avec le code '{code_dept}' introuvable.")  # Lève une exception si le département n'existe pas
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Département avec le code '{code_dept}' introuvable."
+        )  # Lève une exception HTTP 404 si le département n'existe pas
     return departement  # Retourne le département trouvé
 
 

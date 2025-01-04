@@ -71,8 +71,11 @@ def modify_departement(code_dept: str, updated_data: DepartementCreate, db: Sess
     En cas d'autres erreurs, une exception HTTP 500 est levée.
     """
     try:
-        # Met à jour le département via le service
-        return update_departement(db, code_dept, updated_data.dict())
+        # Appel à la fonction pour mettre à jour le département dans la base de données
+        departement = update_departement(db, code_dept, updated_data.dict())
+        
+        # Retourne le département mis à jour
+        return departement
     except ValueError as ve:
         # Si le département n'existe pas, lève une exception HTTP 404
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(ve))
