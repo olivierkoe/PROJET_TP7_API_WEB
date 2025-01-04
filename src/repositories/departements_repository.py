@@ -1,5 +1,7 @@
+from fastapi import HTTPException, status
+
 from sqlalchemy.orm import Session  # Importation de Session pour interagir avec la base de données
-from models import Departement  # Importation du modèle Departement depuis le module models
+from src.models import Departement  # Importation du modèle Departement depuis le module models
 
 
 # Fonction pour obtenir tous les départements
@@ -27,24 +29,24 @@ def get_departement_by_id(db: Session, code_dept: str):
 
 
 # Fonction pour créer un nouveau département
-def create_departement(db: Session, departement_data: DepartementCreate):
+def create_departement(db: Session, departement_data):
     """
     Crée un nouveau département dans la base de données.
     :param db: Session de base de données
-    :param departement_data: Dictionnaire ou objet contenant les données du département à créer
+    :param departement_data: Données du département à créer (dict ou Pydantic)
     :return: Le département nouvellement créé
     """
-    # Affiche les données reçues avant la conversion
-    print(f"Received departement data: {departement_data}")
-    
-    departement_dict = departement_data.dict()  # Convertit les données en dictionnaire
-    print(f"Converted to dict: {departement_dict}")  # Affiche les données après conversion
-    
-    departement = Departement(**departement_dict)  # Crée un objet Departement à partir des données
-    db.add(departement)  # Ajoute le département à la session
-    db.commit()  # Effectue la transaction pour sauvegarder le département dans la base de données
-    db.refresh(departement)  # Rafraîchit l'objet pour récupérer l'état mis à jour
-    return departement  # Retourne le département créé
+    try:
+        new_departement = Departement(**departement_data)
+        # Ajouter le département à la session
+        db.add(new_departement)
+        db.commit()
+        db.refresh(new_departement)
+
+        return new_departement
+    except Exception as e:
+        print(f"Erreur lors de la création du département : {e}")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Erreur lors de la création : {str(e)}")
 
 
 # Fonction pour supprimer un département

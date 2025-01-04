@@ -3,6 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from src.models import Base
 from src.bdd_config import SQLALCHEMY_DATABASE_URL
+from sqlalchemy import text
 # # Configuration de la base de données
 # SQLALCHEMY_DATABASE_URL = "mysql+pymysql://root:@localhost/fromagerie_com"
 
@@ -22,7 +23,7 @@ try:
     # SQLAlchemy n'a pas de méthode directe pour créer une base de données, donc on utilise mysql.connector pour cela
     # Mais si la base de données est déjà créée, vous pouvez ignorer cette étape.
     with engine.connect() as connection:
-        connection.execute("CREATE DATABASE IF NOT EXISTS fromagerie_com")
+        connection.execute(text("CREATE DATABASE IF NOT EXISTS fromagerie_com"))
         connection.execute("USE fromagerie_com")
         # Créer toutes les tables dans la base de données en utilisant les classes de `models.py`
         Base.metadata.create_all(engine)
