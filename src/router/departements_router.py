@@ -1,4 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, status
+from fastapi.responses import JSONResponse
+from pymysql import IntegrityError
 from sqlalchemy.orm import Session
 from src.database import get_db
 from src.services.departements_services import (
@@ -45,22 +47,40 @@ def get_departement(code_dept: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
 
 # Route pour ajouter un nouveau département
-@router_departement.post("/", status_code=status.HTTP_201_CREATED, response_model=Departement, tags=["Départements"])
-def add_departement(departement_data: DepartementCreate, db: Session = Depends(get_db)):
+@router_departement.post("/", status_code=status.HTTP_201_CREATED, tags=["Départements"])
+def create_departement_route(departement_data: DepartementCreate, db: Session = Depends(get_db)):
     """
-    Cette route permet de créer un nouveau département dans la base de données.
-    Si une erreur se produit pendant la création, une exception HTTP 400 est levée.
+    Cette route crée un nouveau département.
+    Retourne un code 200 si le département existe déjà.
     """
     try:
-        # Crée un nouveau département via le service
-        new_dept = create_departement(db, departement_data.model_dump())
-        return new_dept
-    except HTTPException as e:
-        raise e  # Si c'est déjà une exception HTTP, la relancer.
-    except Exception as e:
-        # Gérer les autres erreurs
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"Erreur inattendue : {str(e)}")
+        # Vérifie si le département existe déjà
+        existing_departement = db.query(Departement).filter(Departement.code_dept == departement_data.code_dept).first()
+        if existing_departement:
+            return {"detail": f"Département avec le code '{departement_data.code_dept}' existe déjà."}
 
+        # Crée le département
+        new_departement = Departement(
+            code_dept=departement_data.code_dept,
+            nom_dept=departement_data.nom_dept
+        )
+        db.add(new_departement)
+        db.commit()
+        db.refresh(new_departement)
+        return new_departement
+
+    except IntegrityError as e:
+        db.rollback()  # Annule la transaction en cas d'erreur d'intégrité
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=f"Erreur d'intégrité: {str(e)}"
+        )
+    except Exception as e:
+        db.rollback()  # Annule la transaction en cas d'erreur
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Erreur lors de la création du département: {str(e)}"
+        )
 
 # Route pour modifier un département existant
 @router_departement.put("/{code_dept}", status_code=status.HTTP_200_OK, response_model=Departement, tags=["Départements"])
@@ -71,8 +91,11 @@ def modify_departement(code_dept: str, updated_data: DepartementCreate, db: Sess
     En cas d'autres erreurs, une exception HTTP 500 est levée.
     """
     try:
-        # Met à jour le département via le service
-        return update_departement(db, code_dept, updated_data.dict())
+        # Appel à la fonction pour mettre à jour le département dans la base de données
+        departement = update_departement(db, code_dept, updated_data.dict())
+        
+        # Retourne le département mis à jour
+        return departement
     except ValueError as ve:
         # Si le département n'existe pas, lève une exception HTTP 404
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(ve))
