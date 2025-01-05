@@ -7,8 +7,6 @@ class DepartementCreate(BaseModel):
     code_dept: str
     # nom_dept: Le nom du département (type str)
     nom_dept: str
-    # ordre_aff_dept: Ordre d'affichage ou de priorité du département (type int) - actuellement commenté
-    ordre_aff_dept: Optional[int] = None  # Rendre le champ facultatif
 
     # Configuration du modèle : permet de dériver les attributs de la base de données.
     # 'from_attributes=True' permet à Pydantic de mapper les attributs de la base de données à l'objet Pydantic.
@@ -21,7 +19,6 @@ class Departement(DepartementCreate):
     code_dept: str
     # nom_dept: Le nom du département (type str)
     nom_dept: str
-    # ordre_aff_dept: Ordre d'affichage ou de priorité du département (type int) - actuellement commenté
-    ordre_aff_dept: Optional[int] = None  # Rendre le champ facultatif
+
     # Configuration du modèle : même logique que pour DepartementCreate
     model_config = ConfigDict(from_attributes=True)

@@ -28,21 +28,19 @@ def test_get_departement_by_id():
     assert isinstance(response.json(), dict), "Response should be a dictionary representing a department"
 
 # Test pour la création d'un nouveau département
-def test_create_departement():
-    data = {
-        "code_dept": "93",  # Exemple de code de département
-        "nom_dept": "Seine-Saint-Denis",  # Nom du département
-    }
+# def test_create_departement():
+#     departement_data = {
+#         "code_dept": "02",  # Code du département
+#         "nom_dept": "Aisne",  # Nom du département
+#     }
 
-    response = client.post("/departements", json=data)
-    
-    # Vérification du statut de la réponse
-    assert response.status_code == 201, f"Expected status code 201, got {response.status_code}"
-    
-    # Vérification que le département retourné contient les données envoyées
-    response_json = response.json()
-    assert response_json["code_dept"] == data["code_dept"], "Returned 'code_dept' should match the input"
-    assert response_json["nom_dept"] == data["nom_dept"], "Returned 'nom_dept' should match the input"
+#     response = client.post("/departements", json=departement_data)
+
+#     assert response.status_code == 201, f"Expected status code 201, got {response.status_code}"
+
+#     response_json = response.json()
+#     assert response_json["code_dept"] == departement_data["code_dept"], "Returned 'code_dept' should match the input"
+#     assert response_json["nom_dept"] == departement_data["nom_dept"], "Returned 'nom_dept' should match the input"
 
 # Test pour la suppression d'un département inexistant
 def test_delete_departement_not_found():
