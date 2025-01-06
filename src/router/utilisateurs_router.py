@@ -10,7 +10,7 @@ router_utilisateur = APIRouter()  # Création d'un routeur pour les routes liée
 
 
 @router_utilisateur.get("/", response_model=List[UtilisateurResponse], tags=["Utilisateurs"])
-def get_all_utilisateurs(db: Session = Depends(get_db)):
+def get_utilisateurs(db: Session = Depends(get_db)):
     """
     Récupère tous les utilisateurs depuis la base de données.
     :param db: Session de base de données
