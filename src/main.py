@@ -6,6 +6,7 @@ from src.router.conditionnements_router import router_conditionnement  # Importa
 from src.router.commandes_router import router_commande  # Importation du router des commandes
 from src.router.communes_router import router_commune  # Importation du router des communes
 from src.router.utilisateurs_router import router_utilisateur  # Importation du router des utilisateurs
+from src.router.objets_router import router_objet  # Importation du router des objets
 from src.database import engine  # Importation de l'engine de la base de données (connexion à la BDD)
 from src.models import Base  # Importation de la classe Base pour la création des tables
 
@@ -22,6 +23,7 @@ app.include_router(router_conditionnement, prefix="/conditionnements", tags=["Co
 app.include_router(router_commune, prefix="/communes", tags=["Communes"])  # Routes pour la gestion des communes
 app.include_router(router_commande, prefix="/commandes", tags=["Commandes"])  # Routes pour la gestion des commandes
 app.include_router(router_utilisateur, prefix="/utilisateurs", tags=["Utilisateurs"])  # Routes pour la gestion des utilisateurs
+app.include_router(router_objet, prefix="/objets", tags=["Objets"])  # Routes pour la gestion des utilisateurs
 
 # Commande pour créer toutes les tables définies dans les modèles (models.py) si elles n'existent pas déjà dans la base de données.
 # Cette commande est exécutée lors du démarrage de l'application pour s'assurer que la structure de la base est à jour.
